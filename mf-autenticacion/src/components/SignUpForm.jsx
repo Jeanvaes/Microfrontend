@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const SignUpForm = ({ onSubmit }) => {
+const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ username, email, password });
+
+    try {
+      const response = await axios.post('http://localhost:3010/users/register', {
+        username,
+        email,
+        password
+      });
+
+      console.log('Register response:', response.data);
+
+      // entro
+    } catch (error) {
+      console.error('Register error:', error.response.data);
+    }
   };
 
   return (
