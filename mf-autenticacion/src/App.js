@@ -1,21 +1,18 @@
 import React from 'react';
-import LoginForm from './components/LoginForm';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LoginForm from './components/LoginForm.jsx';
 import SignUpForm from './components/SignUpForm';
 
 const App = () => {
-  const handleLogin = (data) => {
-    console.log('Login data:', data);
-  };
-
-  const handleRegister = (data) => {
-    console.log('Register data:', data);
-  };
-
   return (
-    <div className="App">
-      <LoginForm onSubmit={handleLogin} />
-      <SignUpForm onSubmit={handleRegister} />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignUpForm />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; 
+import './Forms.css'; 
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -22,24 +24,32 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-box"> 
+      <form onSubmit={handleSubmit}>
+        <div className="user-box"> 
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <label>Email</label>
+        </div>
+        <div className="user-box"> 
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <label>Contraseña</label>
+        </div>
+        <center>
+          <button type="submit">Inicia Sesión</button> 
+          <p className="nav-link">¿No tienes una cuenta? <Link to="/signup">Regístrate</Link></p>
+        </center>
+      </form>
+    </div>
   );
 };
 
