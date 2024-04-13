@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; 
-import './Forms.css'; 
+import { Link, Navigate } from 'react-router-dom'; 
+import './Forms.css';
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,17 +18,28 @@ const LoginForm = () => {
         password
       });
 
-      console.log('Login response:', response.data);
-      //entro
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        onLogin();
+        setLoggedIn(true); 
+      } else {
+        setError('Credenciales inválidas');
+      }
     } catch (error) {
-      console.error('Login error:', error.response.data);
+      console.error('Login error:', error);
+      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
   };
 
+  if (loggedIn) {
+    return <Navigate to="/" />;
+  }
+
   return (
-    <div className="login-box"> 
+    <div className="login-box">
+      {error && <div className="error">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <div className="user-box"> 
+        <div className="user-box">
           <input
             type="text"
             value={email}
@@ -35,7 +48,7 @@ const LoginForm = () => {
           />
           <label>Email</label>
         </div>
-        <div className="user-box"> 
+        <div className="user-box">
           <input
             type="password"
             value={password}
@@ -45,7 +58,7 @@ const LoginForm = () => {
           <label>Contraseña</label>
         </div>
         <center>
-          <button type="submit">Inicia Sesión</button> 
+          <button type="submit">Inicia Sesión</button>
           <p className="nav-link">¿No tienes una cuenta? <Link to="/signup">Regístrate</Link></p>
         </center>
       </form>
