@@ -1,0 +1,105 @@
+.admin-panel {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.update-section {
+  margin-bottom: 20px;
+}
+
+.update-section h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.update-section input {
+  padding: 8px;
+  margin-right: 10px;
+}
+
+.update-section button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-section button.buy {
+  background-color: #ff9900; /* Naranja */
+  color: #fff;
+}
+
+.update-section button.buy:hover {
+  background-color: #e68a00; /* Naranja más oscuro */
+}
+
+.update-section button.delete {
+  background-color: #dc3545; /* Rojo */
+  color: #fff;
+}
+
+.update-section button.delete:hover {
+  background-color: #bd2130; /* Rojo más oscuro */
+}
+
+.error {
+  color: #dc3545;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #007bff; /* Azul */
+  border-radius: 10px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #007bff; /* Azul */
+  color: #fff;
+}
+
+tbody tr:hover {
+  background-color: #007bff; /* Azul más oscuro */
+}
+
+.action-buttons button {
+  margin-left: 5px;
+}
+
+/* Aplicar estilos específicos a los botones de compra y eliminación */
+.action-buttons button.buy,
+.action-buttons button.delete {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.action-buttons button.buy {
+  background-color: #28a745; /* Verde */
+}
+
+.action-buttons button.buy:hover {
+  background-color: #218838; /* Verde más oscuro */
+}
+
+.action-buttons button.delete {
+  background-color: #dc3545; /* Rojo */
+}
+
+.action-buttons button.delete:hover {
+  background-color: #bd2130; /* Rojo más oscuro */
+}
+

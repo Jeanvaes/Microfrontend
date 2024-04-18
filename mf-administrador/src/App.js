@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import './App.css';
+import './AdminPanel.css';
 import React from 'react';
 import AdminPanel from './AdminPanel';
 
