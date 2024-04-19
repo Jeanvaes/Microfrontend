@@ -1,5 +1,9 @@
+import React from "react";
+import ReactDOM from "react-dom";
+
+import "./index.css";
+
 import './AdminPanel.css';
-import React from 'react';
 import AdminPanel from './AdminPanel';
 
 function App() {
@@ -9,7 +13,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
-
-
+ReactDOM.render(<App />, document.getElementById("app"));
