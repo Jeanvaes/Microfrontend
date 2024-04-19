@@ -32,7 +32,7 @@ const LoginForm = ({ onLogin }) => {
   };
 
   if (loggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to="/"/>;
   }
 
   return (
