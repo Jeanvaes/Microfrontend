@@ -9,10 +9,11 @@ const App = () => {
   const [selectedMicrofrontend, setSelectedMicrofrontend] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedQuantity, setSelectedQuantity] = useState({});
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const AdminPanel = React.lazy(() => import("mf_administrador/admin"));
-  const LoginForm = React.lazy(() => import("mf_autenticacion/Home"));
+  const LoginForm = React.lazy(() => import("mf_autenticacion/Login"));
+  const RegisterForm = React.lazy(() => import("mf_autenticacion/Register"));
 
   useEffect(() => {
     fetchProducts();
@@ -29,11 +30,11 @@ const App = () => {
 
   const handleBuy = async (id) => {
     try {
-      if (!isLoggedIn) {
+      if (!loggedIn) {
         alert('Login es requerido para comprar productos.');
         return;
       }
-  
+
       const quantity = selectedQuantity[id];
       const product = products.find(product => product.id === id);
       if (product && quantity > product.cantidad) {
@@ -47,13 +48,30 @@ const App = () => {
     }
   };
 
+  const handleSignUp = (isLoggedIn) => {
+    setLoggedIn(isLoggedIn);
+    setSelectedMicrofrontend(null);
+  };
+
+  const handleLogin = (isLoggedIn) => {
+    setLoggedIn(isLoggedIn);
+    setSelectedMicrofrontend(null);
+  };
+
   return (
     <Router>
       <div>
         <nav>
           <h1 onClick={() => window.location.reload()}>Panchito HyperMarket</h1>
-          <button onClick={() => setSelectedMicrofrontend("AdminPanel")}>Admin Panel</button>
-          <button onClick={() => setSelectedMicrofrontend("LoginForm")}>Login</button>
+          {loggedIn ? (
+            <h2>¡Has iniciado sesión correctamente!</h2>
+          ) : (
+            <>
+              <button onClick={() => setSelectedMicrofrontend("AdminPanel")}>Admin Panel</button>
+              <button onClick={() => setSelectedMicrofrontend("LoginForm")}>Login</button>
+              <button onClick={() => setSelectedMicrofrontend("RegisterForm")}>SignUp</button>
+            </>
+          )}
         </nav>
 
         <table>
@@ -72,7 +90,7 @@ const App = () => {
                 <td>{product.precio}</td>
                 <td>{product.cantidad}</td>
                 <td>
-                  <input type="number" min="1" value={selectedQuantity[product.id] || ''} onChange={(e) => setSelectedQuantity({...selectedQuantity, [product.id]: e.target.value})} />
+                  <input type="number" min="1" value={selectedQuantity[product.id] || ''} onChange={(e) => setSelectedQuantity({ ...selectedQuantity, [product.id]: e.target.value })} />
                   <button className="buy-button" onClick={() => handleBuy(product.id)}>Comprar</button>
                 </td>
               </tr>
@@ -82,7 +100,8 @@ const App = () => {
 
         <Suspense fallback={<div>Loading...</div>}>
           {selectedMicrofrontend === "AdminPanel" && <AdminPanel />}
-          {selectedMicrofrontend === "LoginForm" && <LoginForm />}
+          {selectedMicrofrontend === "LoginForm" && <LoginForm onLogin={handleLogin} />}
+          {selectedMicrofrontend === "RegisterForm" && <RegisterForm onSignUp={handleSignUp} />}
         </Suspense>
       </div>
     </Router>

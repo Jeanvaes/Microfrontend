@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, Navigate } from 'react-router-dom'; 
 import './Forms.css';
 
 const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +18,7 @@ const LoginForm = ({ onLogin }) => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        onLogin();
-        setLoggedIn(true); 
-        localStorage.setItem('isLoggedIn', 'true');
+        onLogin(true); 
       } else {
         setError('Credenciales inválidas');
       }
@@ -31,10 +27,6 @@ const LoginForm = ({ onLogin }) => {
       setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
   };
-
-  if (loggedIn) {
-    return <Navigate to="/"/>;
-  }
 
   return (
     <div className="login-box">
@@ -60,7 +52,6 @@ const LoginForm = ({ onLogin }) => {
         </div>
         <center>
           <button type="submit">Inicia Sesión</button>
-          <p className="nav-link">¿No tienes una cuenta? <Link to="/signup">Regístrate</Link></p>
         </center>
       </form>
     </div>
