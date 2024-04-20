@@ -61,7 +61,7 @@ const App = () => {
     setSelectedMicrofrontend(null);
     setUserName(jwtDecode(jwt).username);
   };
-  
+
   const handleLogin = async (jwt) => {
     localStorage.setItem('jwt', jwt);
     setUser({
@@ -71,7 +71,7 @@ const App = () => {
     setSelectedMicrofrontend(null);
     setUserName(jwtDecode(jwt).username);
   };
-  
+
 
   axios.interceptors.request.use(
     config => {
@@ -104,35 +104,38 @@ const App = () => {
           ) : (
             <>
               <button onClick={() => setSelectedMicrofrontend("AdminPanel")}>Admin Panel</button>
-              <button onClick={() => setSelectedMicrofrontend("LoginForm")}>Login</button>
-              <button onClick={() => setSelectedMicrofrontend("RegisterForm")}>SignUp</button>
+              <button onClick={() => setSelectedMicrofrontend("LoginForm")}>Inicia sesión</button>
+              <button onClick={() => setSelectedMicrofrontend("RegisterForm")}>Registrate</button>
             </>
           )}
         </nav>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Comprar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map(product => (
-              <tr key={product.id}>
-                <td>{product.nombre}</td>
-                <td>{product.precio}</td>
-                <td>{product.cantidad}</td>
-                <td>
-                  <input type="number" min="1" value={selectedQuantity[product.id] || ''} onChange={(e) => setSelectedQuantity({ ...selectedQuantity, [product.id]: e.target.value })} />
-                  <button className="buy-button" onClick={() => handleBuy(product.id)}>Comprar</button>
-                </td>
+        {/* Renderizar la tabla de productos solo si selectedMicrofrontend no es AdminPanel */}
+        {selectedMicrofrontend !== "AdminPanel" && (
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Comprar</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product.id}>
+                  <td>{product.nombre}</td>
+                  <td>{product.precio}</td>
+                  <td>{product.cantidad}</td>
+                  <td>
+                    <input type="number" min="1" value={selectedQuantity[product.id] || ''} onChange={(e) => setSelectedQuantity({ ...selectedQuantity, [product.id]: e.target.value })} />
+                    <button className="buy-button" onClick={() => handleBuy(product.id)}>Comprar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
         <Suspense fallback={<div>Loading...</div>}>
           {selectedMicrofrontend === "AdminPanel" && <AdminPanel />}

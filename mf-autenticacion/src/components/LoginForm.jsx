@@ -17,8 +17,8 @@ const LoginForm = ({ onLogin }) => {
       });
 
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        onLogin(true); 
+        localStorage.setItem('jwt', response.data.token);
+        onLogin(response.data.token); 
       } else {
         setError('Credenciales inválidas');
       }

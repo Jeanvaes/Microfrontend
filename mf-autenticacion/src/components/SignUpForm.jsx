@@ -18,10 +18,13 @@ const SignUpForm = ({ onSignUp }) => {
         password
       });
 
-      console.log('Register response:', response.data);
+      console.log('Register response:', response.data.token);
       
-      if (response.status === 200) {
-        onSignUp(true); 
+      if (response.data.token) {
+        localStorage.setItem('jwt', response.data.token);
+        onSignUp(response.data.token); 
+      } else {
+        setError('Credenciales inválidas');
       }
 
     } catch (error) {
