@@ -2,6 +2,7 @@ import React, { Suspense, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 import './index.css';
 import './Table.css';
 
@@ -9,7 +10,11 @@ const App = () => {
   const [selectedMicrofrontend, setSelectedMicrofrontend] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedQuantity, setSelectedQuantity] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState({
+    loggedIn: false,
+    jwt: localStorage.getItem('jwt') || null
+  });
+  const [userName, setUserName] = useState("");
 
   const AdminPanel = React.lazy(() => import("mf_administrador/admin"));
   const LoginForm = React.lazy(() => import("mf_autenticacion/Login"));
@@ -30,7 +35,7 @@ const App = () => {
 
   const handleBuy = async (id) => {
     try {
-      if (!loggedIn) {
+      if (!user.loggedIn) {
         alert('Login es requerido para comprar productos.');
         return;
       }
@@ -48,14 +53,42 @@ const App = () => {
     }
   };
 
-  const handleSignUp = (isLoggedIn) => {
-    setLoggedIn(isLoggedIn);
+  const handleSignUp = async (jwt) => {
+    setUser({
+      loggedIn: true,
+      jwt: jwt
+    });
     setSelectedMicrofrontend(null);
+    setUserName(jwtDecode(jwt).username);
   };
-
-  const handleLogin = (isLoggedIn) => {
-    setLoggedIn(isLoggedIn);
+  
+  const handleLogin = async (jwt) => {
+    localStorage.setItem('jwt', jwt);
+    setUser({
+      loggedIn: true,
+      jwt: jwt
+    });
     setSelectedMicrofrontend(null);
+    setUserName(jwtDecode(jwt).username);
+  };
+  
+
+  axios.interceptors.request.use(
+    config => {
+      config.headers.authorization = `Bearer ${user.jwt}`;
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
+    });
+
+  const handleLogout = () => {
+    setUser({
+      loggedIn: false,
+      jwt: null
+    });
+    setSelectedMicrofrontend(null);
+    localStorage.removeItem('jwt');
   };
 
   return (
@@ -63,8 +96,11 @@ const App = () => {
       <div>
         <nav>
           <h1 onClick={() => window.location.reload()}>Panchito HyperMarket</h1>
-          {loggedIn ? (
-            <h2>¡Has iniciado sesión correctamente!</h2>
+          {user.loggedIn ? (
+            <>
+              <h2>{`¡Hola de nuevo, ${userName}!`}</h2>
+              <button onClick={handleLogout}>Cerrar sesión</button>
+            </>
           ) : (
             <>
               <button onClick={() => setSelectedMicrofrontend("AdminPanel")}>Admin Panel</button>
