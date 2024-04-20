@@ -21,7 +21,7 @@ const App = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/producto/todos');
+      const response = await axios.get('http://localhost:3009/api/producto/todos');
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -41,7 +41,7 @@ const App = () => {
         alert('No hay suficiente stock para comprar esa cantidad de producto.');
         return;
       }
-      await axios.put(`http://localhost:8080/api/producto/comprar?id=${id}&cantidad=${quantity}`);
+      await axios.put(`http://localhost:3009/api/producto/comprar?id=${id}&cantidad=${quantity}`);
       fetchProducts();
     } catch (error) {
       console.error('Error buying product:', error);

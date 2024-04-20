@@ -18,7 +18,7 @@ const AdminPanel = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/producto/todos');
+            const response = await axios.get('http://localhost:3009/api/producto/todos');
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -27,7 +27,7 @@ const AdminPanel = () => {
 
     const buyProduct = async () => {
         try {
-            await axios.put(`http://localhost:8080/api/producto/comprar?id=${buyQuantity.id}&cantidad=${buyQuantity.cantidad}`);
+            await axios.put(`http://localhost:3009/api/producto/comprar?id=${buyQuantity.id}&cantidad=${buyQuantity.cantidad}`);
             await fetchProducts();
             setBuyQuantity({ id: '', cantidad: 0 });
             setError('');
@@ -39,7 +39,7 @@ const AdminPanel = () => {
 
      const deleteProduct = async (id) => {
             try {
-                await axios.delete(`http://localhost:8080/api/producto/eliminar/${id}`);
+                await axios.delete(`http://localhost:3009/api/producto/eliminar/${id}`);
                 await fetchProducts();
                 setError('');
             } catch (error) {
@@ -50,7 +50,7 @@ const AdminPanel = () => {
 
     const updateProductName = async () => {
         try {
-            await axios.put(`http://localhost:8080/api/producto/actualizar/nombre?nombre=${updateName.name}&nuevoNombre=${updateName.newName}`);
+            await axios.put(`http://localhost:3009/api/producto/actualizar/nombre?nombre=${updateName.name}&nuevoNombre=${updateName.newName}`);
             await fetchProducts();
             setUpdateName({ name: '', newName: '' });
             setError('');
@@ -62,7 +62,7 @@ const AdminPanel = () => {
 
     const updateProductPrice = async () => {
         try {
-            await axios.put(`http://localhost:8080/api/producto/actualizar/precio?nombre=${updatePrice.name}&precio=${updatePrice.newPrice}`);
+            await axios.put(`http://localhost:3009/api/producto/actualizar/precio?nombre=${updatePrice.name}&precio=${updatePrice.newPrice}`);
             await fetchProducts();
             setUpdatePrice({ name: '', newPrice: 0 });
             setError('');
@@ -74,7 +74,7 @@ const AdminPanel = () => {
 
     const updateProductQuantity = async () => {
         try {
-            await axios.put(`http://localhost:8080/api/producto/actualizar/cantidad?nombre=${updateQuantity.name}&cantidad=${updateQuantity.newQuantity}`);
+            await axios.put(`http://localhost:3009/api/producto/actualizar/cantidad?nombre=${updateQuantity.name}&cantidad=${updateQuantity.newQuantity}`);
             await fetchProducts();
             setUpdateQuantity({ name: '', newQuantity: 0 });
             setError('');
@@ -87,7 +87,7 @@ const AdminPanel = () => {
 
     const addNewProduct = async () => {
         try {
-            await axios.post(`http://localhost:8080/api/producto/agregar`, newProduct);
+            await axios.post(`http://localhost:3009/api/producto/agregar`, newProduct);
             await fetchProducts(); // Actualiza la lista de productos después de agregar uno nuevo
             setNewProduct({ nombre: '', cantidad: 0, precio: 0 }); // Limpia los campos después de agregar el producto
             setError(''); // Limpia cualquier error anterior

@@ -12,7 +12,7 @@ const SignUpForm = ({ onSignUp }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3010/users/register', {
+      const response = await axios.post('http://localhost:3009/users/register', {
         username,
         email,
         password
