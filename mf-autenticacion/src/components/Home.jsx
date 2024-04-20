@@ -5,7 +5,10 @@ const Home = ({ isLoggedIn, onLogout }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     onLogout();
+    localStorage.setItem('isLoggedIn', 'false');
   };
+
+  
 
   return (
     <div className="home">

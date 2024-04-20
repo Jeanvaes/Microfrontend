@@ -22,6 +22,7 @@ const LoginForm = ({ onLogin }) => {
         localStorage.setItem('token', response.data.token);
         onLogin();
         setLoggedIn(true); 
+        localStorage.setItem('isLoggedIn', 'true');
       } else {
         setError('Credenciales inválidas');
       }
